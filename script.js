@@ -1,4 +1,4 @@
-// /* How to Drag 
+// /* How to Drag
 // 1-> Select Item
 // 2-> Left Click on it
 // 3-> Drag it to the desired location
@@ -80,105 +80,107 @@
 //     }
 // });
 
-
-
 let highestZ = 10;
 
 class Paper {
-    holdingPaper = false;
+  holdingPaper = false;
 
-    prevX = 0;
-    prevY = 0;
+  prevX = 0;
+  prevY = 0;
 
-    curX = 0;
-    curY = 0;
+  curX = 0;
+  curY = 0;
 
-    velocityX = 0;
-    velocityY = 0;
+  velocityX = 0;
+  velocityY = 0;
 
-    curPaperX = 0;
-    curPaperY = 0;
+  curPaperX = 0;
+  curPaperY = 0;
 
-    init(paper) {
-        const startDrag = (x, y) => {
-            this.holdingPaper = true;
-            paper.style.zIndex = highestZ;
-            highestZ += 1;
+  init(paper) {
+    const startDrag = (x, y) => {
+      this.holdingPaper = true;
+      paper.style.zIndex = highestZ;
+      highestZ += 1;
 
-            this.prevX = x;
-            this.prevY = y;
-        };
+      this.prevX = x;
+      this.prevY = y;
+    };
 
-        const movePaper = (x, y) => {
-            this.curX = x;
-            this.curY = y;
+    const movePaper = (x, y) => {
+      this.curX = x;
+      this.curY = y;
 
-            this.velocityX = this.curX - this.prevX;
-            this.velocityY = this.curY - this.prevY;
+      this.velocityX = this.curX - this.prevX;
+      this.velocityY = this.curY - this.prevY;
 
-            if (this.holdingPaper) {
-                this.curPaperX += this.velocityX;
-                this.curPaperY += this.velocityY;
+      if (this.holdingPaper) {
+        this.curPaperX += this.velocityX;
+        this.curPaperY += this.velocityY;
 
-                this.prevX = this.curX;
-                this.prevY = this.curY;
+        this.prevX = this.curX;
+        this.prevY = this.curY;
 
-                paper.style.transform = `translateX(${this.curPaperX}px) translateY(${this.curPaperY}px)`;
-            }
-        };
+        paper.style.transform = `translateX(${this.curPaperX}px) translateY(${this.curPaperY}px)`;
+      }
+    };
 
-        const endDrag = () => {
-            this.holdingPaper = false;
-        };
+    const endDrag = () => {
+      this.holdingPaper = false;
+    };
 
-        // Mouse Events
-        paper.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            if (e.button === 0) {
-                startDrag(e.clientX, e.clientY);
-            }
-        });
+    // Mouse Events
+    paper.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      if (e.button === 0) {
+        startDrag(e.clientX, e.clientY);
+      }
+    });
 
-        document.addEventListener('mousemove', (e) => {
-            if (this.holdingPaper) {
-                movePaper(e.clientX, e.clientY);
-            }
-        });
+    document.addEventListener("mousemove", (e) => {
+      if (this.holdingPaper) {
+        movePaper(e.clientX, e.clientY);
+      }
+    });
 
-        window.addEventListener('mouseup', endDrag);
+    window.addEventListener("mouseup", endDrag);
 
-        // Touch Events
-        paper.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            startDrag(touch.clientX, touch.clientY);
-        });
+    // Touch Events
+    paper.addEventListener("touchstart", (e) => {
+      const touch = e.touches[0];
+      startDrag(touch.clientX, touch.clientY);
+    });
 
-        document.addEventListener('touchmove', (e) => {
-            if (this.holdingPaper) {
-                const touch = e.touches[0];
-                movePaper(touch.clientX, touch.clientY);
-            }
-        });
+    document.addEventListener("touchmove", (e) => {
+      if (this.holdingPaper) {
+        const touch = e.touches[0];
+        movePaper(touch.clientX, touch.clientY);
+      }
+    });
 
-        window.addEventListener('touchend', endDrag);
-    }
+    window.addEventListener("touchend", endDrag);
+  }
 }
 
-const main = document.querySelector('.main');
-const papers = Array.from(main.querySelectorAll('.paper'));
+const main = document.querySelector(".main");
+const papers = Array.from(main.querySelectorAll(".paper"));
 
 papers.forEach((paper) => {
-    const p = new Paper();
-    p.init(paper);
+  const p = new Paper();
+  p.init(paper);
 });
 
-document.addEventListener('keydown', (e) => {
-    if (e.shiftKey && e.metaKey && e.key === 'a') {
-        const newPaper = document.createElement('div');
-        newPaper.classList.add('paper');
-        main.appendChild(newPaper);
-        const p = new Paper();
-        p.init(newPaper);
-        papers.push(newPaper);
-    }
+document.addEventListener("keydown", (e) => {
+  if (e.shiftKey && e.metaKey && e.key === "a") {
+    const newPaper = document.createElement("div");
+    newPaper.classList.add("paper");
+    main.appendChild(newPaper);
+    const p = new Paper();
+    p.init(newPaper);
+    papers.push(newPaper);
+  }
+});
+
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
 });
